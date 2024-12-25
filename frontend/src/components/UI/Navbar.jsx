@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -25,7 +26,7 @@ function Navbar() {
           </svg>
           <span className="ml-3 cursor-pointer text-xl xl:block lg:hidden">GAMING HUB</span>
         </a>
-        <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+        <div className="lg:w-2/5 inline-flex justify-center items-center gap-5 lg:justify-end ml-5 lg:ml-0">
           <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
             Search
             <svg
@@ -40,6 +41,9 @@ function Navbar() {
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
           </button>
+          <Link to={"/login"} className="rounded-lg bg-purple-900 text-white px-3 py-2">
+            Sign In
+          </Link>
         </div>
       </div>
     </header>

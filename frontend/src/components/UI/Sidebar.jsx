@@ -7,7 +7,7 @@ import { CiShoppingCart } from "react-icons/ci";
 function Sidebar() {
   const [role, setRole] = useState("admin");
   return (
-    <div className="flex flex-col h-max pb-32 p-10 rounded-lg m-5 items-center bg-gray-900 gap-5 w-96">
+    <div className="flex flex-col h-max pb-32 p-10 rounded-lg items-center bg-gray-900 gap-5 w-96">
       <div className="profileArea items-center flex flex-col">
         <img
           className="w-40 h-40 mb-5 rounded-full"
@@ -24,7 +24,7 @@ function Sidebar() {
             <div className="sideBarItem  py-2 text-center hover:bg-purple-900 hover:text-white items-center justify-center border-b border-white text-gray-300 flex gap-2 w-full">
               {/* Updated Link */}
               <CgChart />
-              <Link className="" to="/admin/dashboard">
+              <Link className="" to="/profile?tab=dashboard">
                 DASHBOARD
               </Link>
             </div>
