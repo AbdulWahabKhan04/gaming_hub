@@ -1,9 +1,10 @@
 import User from "../Models/userModel.js"
 import bcryptjs from "bcryptjs"
+import generateToken from "../Utils/generateToken.js"
 
 export const registerUser = async (req,res) => {
     try {
-        const {username,email,password,confirmPassword,phone,platform} =  req.body
+        const {username,email,password,confirmPassword,phone,platform,profilePic} =  req.body
         if(!username || !email || !password || !confirmPassword || !phone || !platform){
             return res.status(400).json({error: "All fields are required"})
         }
@@ -28,7 +29,8 @@ export const registerUser = async (req,res) => {
             email,
             password: newPass,
             phone,
-            platform
+            platform,
+            profilePic
         })
         await newUser.save()
         res.status(201).json({message: "Welcome into Gaming World!"});
@@ -52,7 +54,8 @@ export const loginUser = async (req,res) => {
         if(!isMatch){
             return res.status(400).json({error: "Invalid credentials"})
         }
-        res.status(200).json({message: `Welcome back! ${user.username}`});
+        const token = await generateToken(user._id)
+        res.status(200).cookie("accessToken",token).json({message: `Welcome back! ${user.username}`});
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });

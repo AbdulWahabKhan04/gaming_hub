@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false
     },
     phone: {
         type: Number,
@@ -41,6 +40,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["active", "inactive"],
         default: "active",
+    },
+    profilePic: {
+        type: String,
     },
 },{ timestamps: true });
 
