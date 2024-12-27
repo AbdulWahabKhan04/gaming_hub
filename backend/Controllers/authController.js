@@ -34,7 +34,8 @@ export const registerUser = async (req,res) => {
             profilePic
         })
         await newUser.save()
-        res.status(201).json({message: "Welcome into Gaming World!"});
+        const token = await generateToken(newUser._id)
+        res.status(201).cookie("accessToken",token).json({message: "Welcome into Gaming World!",newUser});
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });
@@ -56,7 +57,7 @@ export const loginUser = async (req,res) => {
             return res.status(400).json({error: "Invalid credentials"})
         }
         const token = await generateToken(user._id)
-        res.status(200).cookie("accessToken",token).json({message: `Welcome back! ${user.username}`});
+        res.status(200).cookie("accessToken",token).json({message: `Welcome back! ${user.username}`,user});
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });

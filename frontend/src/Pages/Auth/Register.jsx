@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch} from "react-redux";
+import { userSignin } from "../../Redux/UserSlice";
 function Register() {
   const [formData, setFormData] = useState(null);
   const navigateTo = useNavigate();
+  const dispatch = useDispatch();
   const HandleRegister = async () => {
     toast("On It!",{
       icon: "⏳",
@@ -20,7 +23,7 @@ function Register() {
         "http://localhost:3000/api/auth/register",
         data
       );
-
+      dispatch(userSignin(res.data.newUser));
       toast.success(res.data.message);
       navigateTo("/")
     } catch (error) {
