@@ -28,7 +28,7 @@ function ProfilePanel() {
   },[currentUser])
   
   return (
-    <div className="h-min-screen p-5 gap-5 bg-gray-800 max-md:items-center  flex flex-col lg:flex-row">
+    <div className="h-min-screen p-5 gap-5 bg-gray-800 max-lg:items-center flex flex-col lg:flex-row">
       <Sidebar />
 
       {tab === "profile" && <div>Profile Panel</div>}
