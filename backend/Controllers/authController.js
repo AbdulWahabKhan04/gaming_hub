@@ -57,7 +57,7 @@ export const loginUser = async (req,res) => {
             return res.status(400).json({error: "Invalid credentials"})
         }
         const token = await generateToken(user._id)
-        res.status(200).cookie("accessToken",token).json({message: `Welcome back! ${user.username}`,user});
+        res.status(200).cookie("accessToken",token,{httpOnly:true}).json({message: `Welcome back! ${user.username}`,user});
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });
