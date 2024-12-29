@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 
 function ProfilePanel() {
   const location = useLocation();
-  const {currentUser} = useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user);
   const [tab, setTab] = useState("");
-  const navigateTo = useNavigate()
+  const navigateTo = useNavigate();
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -19,20 +19,21 @@ function ProfilePanel() {
       setTab("profile");
     }
   }, [location.search]);
-  
-  useEffect(()=>{
-    if(!currentUser){
-      toast.error("Please Login First to access the panel!")
-      navigateTo('/')
+
+  useEffect(() => {
+    if (!currentUser) {
+      toast.error("Please Login First to access the panel!");
+      navigateTo("/");
     }
-  },[currentUser])
-  
+  }, [currentUser]);
+
   return (
     <div className="h-min-screen p-5 gap-5 bg-gray-800 max-lg:items-center flex flex-col lg:flex-row">
-      <Sidebar />
-
-      {tab === "profile" && <div>Profile Panel</div>}
-      {tab === "dashboard" && <Dashboard />}
+      <Sidebar/>
+      <div className="max-w-7xl">
+        {tab === "profile" && <div>Profile Panel</div>}
+        {tab === "dashboard" && <Dashboard />}
+      </div>
     </div>
   );
 }

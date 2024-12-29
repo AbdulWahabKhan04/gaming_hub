@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 
-function DashboardChart() {
+function DashboardChart({ title, data }) {
   // Chart Options: Control & configure the chart
+  console.log(title,data)
+  const [currentData,setCurrentData] = useState({})
   const [chartOptions, setChartOptions] = useState({
-    data: [
-      { month: "Jan", iceCreamSales: 162000 },
-      { month: "Mar", iceCreamSales: 302000 },
-      { month: "May", iceCreamSales: 800000 },
-      { month: "Jul", iceCreamSales: 1254000 },
-      { month: "Sep", iceCreamSales: 950000 },
-      { month: "Nov", iceCreamSales: 200000 },
-    ],
+    data: [],
     series: [
       {
         type: "line",
@@ -52,29 +47,24 @@ function DashboardChart() {
     background: {
       visible: false, // Transparent background
     },
-    overlays: {
-      loading: {
-        text: "Some custom loading message",
-      },
-      noData: {
-        text: "Some custom noData message",
-      },
-      noVisibleSeries: {
-        text: "Some custom noVisibleSeries message",
-      },
-      unsupportedBrowser: {
-        text: "Some custom unsupportedBrowser message",
-      },
-    },
   });
 
+  useEffect(()=>{
+    setCurrentData(data)
+  },[])
+
   return (
-    <div className="p-5 hover:shadow-lg hover:shadow-purple-900  dashboard-chart w-full flex flex-col gap-10 rounded-lg ">
+    <div className="p-5 hover:shadow-lg hover:shadow-purple-900 dashboard-chart w-full flex flex-col gap-10 rounded-lg ">
       <div className="flex flex-col gap-1">
-        <h2 className="text-3xl">Total Users</h2>
-        <p className="text-gray-500 text-2xl">1000</p>
+        <h2 className="text-3xl">{title}</h2>
+        <p className="text-gray-500 text-2xl">
+          {currentData.users.length } 
+        </p>
         <span className="text-xl">
-          <span className="text-green-500"> +10 </span> since yesterday
+          <span className="text-green-500">
+            {currentData.ThisWeekUsers.length } 
+          </span>{" "}
+          since last week
         </span>
       </div>
       <AgCharts

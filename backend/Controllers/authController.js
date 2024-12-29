@@ -63,3 +63,27 @@ export const loginUser = async (req,res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getTotalUsers = async(req,res)=>{
+    try {
+        const users = await User.find()
+        // Get the start of today
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0); // Set to 00:00:00
+
+        // Get the start of last week (7 days ago)
+        const startOfLastWeek = new Date(startOfDay);
+        startOfLastWeek.setDate(startOfLastWeek.getDate() - 7); // Subtract 7 days
+
+        // Query for users created since last week
+        const ThisWeekUsers = await User.find({
+            createdAt: {
+                $gte: startOfLastWeek, // From 7 days ago
+            },
+        });
+        res.status(200).json({users,ThisWeekUsers})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+}
