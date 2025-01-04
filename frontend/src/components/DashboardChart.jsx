@@ -2,67 +2,84 @@ import React, { useEffect, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 
 function DashboardChart({ title, data }) {
-  // Chart Options: Control & configure the chart
-  console.log(title,data)
-  const [currentData,setCurrentData] = useState({})
+  const [currentData, setCurrentData] = useState({
+    users: [],
+    ThisWeekUsers: [],
+  });
+
   const [chartOptions, setChartOptions] = useState({
-    data: [],
+    data: [], // Initially empty
     series: [
       {
         type: "line",
-        xKey: "month",
-        yKey: "iceCreamSales",
-        stroke: "#4C1D95", // Line color matching Tailwind's text-purple-900
+        xKey: "month", // x-axis key
+        yKey: "iceCreamSales", // y-axis key
+        stroke: "#4C1D95",
         marker: {
-          fill: "#4C1D95", // Marker color matching line color
+          fill: "#4C1D95",
           stroke: "#4C1D95",
         },
         label: {
-          enabled: false, // Disables series labels
+          enabled: false,
         },
       },
     ],
     axes: [
       {
-        type: "category",
+        type: "category", // x-axis type
         position: "bottom",
         label: {
-          color: "#FFFFFF", // X-axis text color
+          color: "#FFFFFF",
         },
         title: {
-          enabled: false, // Hides X-axis title
+          enabled: false,
         },
       },
       {
-        type: "number",
+        type: "number", // y-axis type
         position: "left",
         label: {
-          color: "#FFFFFF", // Y-axis text color
+          color: "#FFFFFF",
         },
         title: {
-          enabled: false, // Hides Y-axis title
+          enabled: false,
         },
       },
     ],
     background: {
-      visible: false, // Transparent background
+      visible: false,
     },
   });
 
-  useEffect(()=>{
-    setCurrentData(data)
-  },[])
+  useEffect(() => {
+    // Update currentData when `data` changes
+    if (data && data.users && data.ThisWeekUsers) {
+      setCurrentData(data);
+
+      // Prepare data for the chart
+      const chartData = data.users.map((user, index) => ({
+        month: `Month ${index + 1}`, // Example xKey
+        iceCreamSales: user.sales || 0, // Example yKey
+      }));
+
+      // Update chartOptions with new data
+      setChartOptions((prevOptions) => ({
+        ...prevOptions,
+        data: chartData, // Bind new data to the chart
+      }));
+    } else {
+      console.warn("Invalid data passed to DashboardChart:", data);
+    }
+  }, [data]);
 
   return (
-    <div className="p-5 hover:shadow-lg hover:shadow-purple-900 dashboard-chart w-full flex flex-col gap-10 rounded-lg ">
+    <div className="p-5 hover:shadow-lg hover:shadow-purple-900 dashboard-chart w-full flex flex-col gap-10 rounded-lg">
       <div className="flex flex-col gap-1">
         <h2 className="text-3xl">{title}</h2>
-        <p className="text-gray-500 text-2xl">
-          {currentData.users.length } 
-        </p>
+        <p className="text-gray-500 text-2xl">{currentData.users.length}</p>
         <span className="text-xl">
           <span className="text-green-500">
-            {currentData.ThisWeekUsers.length } 
+            {currentData.ThisWeekUsers.length}
           </span>{" "}
           since last week
         </span>
