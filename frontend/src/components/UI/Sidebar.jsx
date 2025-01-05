@@ -2,8 +2,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { GrHistory, GrPowerShutdown } from "react-icons/gr";
-import { CgChart, CgProductHunt, CgProfile } from "react-icons/cg";
-import { TbCategory, TbJewishStar } from "react-icons/tb";
+import { CgChart, CgOpenCollective, CgProductHunt, CgProfile } from "react-icons/cg";
+import { TbBrandStocktwits, TbCategory, TbJewishStar } from "react-icons/tb";
 import { CiShoppingCart } from "react-icons/ci";
 import { userSignOut } from "../../Redux/UserSlice";
 function Sidebar() {
@@ -38,6 +38,15 @@ function Sidebar() {
                 <CgChart />
                 <Link className="" to="/profile?tab=dashboard">
                   DASHBOARD
+                </Link>
+              </div>
+
+              
+              <div className="sideBarItem  py-2 text-center hover:bg-purple-900 hover:text-white items-center justify-center border-b border-white text-gray-300 flex gap-2 w-full">
+                {/* Updated Link */}
+                <TbBrandStocktwits />
+                <Link className="" to="/profile?tab=dashboard">
+                  Inventory
                 </Link>
               </div>
 

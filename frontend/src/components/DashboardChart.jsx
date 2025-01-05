@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 
 function DashboardChart({ title, data }) {
   const [currentData, setCurrentData] = useState({
-    users: [],
-    ThisWeekUsers: [],
+    data: [],
+    ThisMonthData: [],
   });
-
   const [chartOptions, setChartOptions] = useState({
     data: [], // Initially empty
     series: [
@@ -53,11 +52,11 @@ function DashboardChart({ title, data }) {
 
   useEffect(() => {
     // Update currentData when `data` changes
-    if (data && data.users && data.ThisWeekUsers) {
+    if (data && data.data && data.ThisMonthData) {
       setCurrentData(data);
 
       // Prepare data for the chart
-      const chartData = data.users.map((user, index) => ({
+      const chartData = data.data.map((user, index) => ({
         month: `Month ${index + 1}`, // Example xKey
         iceCreamSales: user.sales || 0, // Example yKey
       }));
@@ -76,12 +75,12 @@ function DashboardChart({ title, data }) {
     <div className="p-5 hover:shadow-lg hover:shadow-purple-900 dashboard-chart w-full flex flex-col gap-10 rounded-lg">
       <div className="flex flex-col gap-1">
         <h2 className="text-3xl">{title}</h2>
-        <p className="text-gray-500 text-2xl">{currentData.users.length}</p>
+        <p className="text-gray-500 text-2xl">{currentData.data.length}</p>
         <span className="text-xl">
           <span className="text-green-500">
-            {currentData.ThisWeekUsers.length}
+            {currentData.ThisMonthData.length}
           </span>{" "}
-          since last week
+          since last month
         </span>
       </div>
       <AgCharts

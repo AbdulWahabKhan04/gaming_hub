@@ -2,6 +2,8 @@ import Product from '../Models/productModel.js';
 
 const createProduct = async (req, res) => {
     try {
+        const user = req.user 
+        console.log(user)
         const { name,
             type,
             price,
@@ -41,7 +43,21 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
-        res.status(200).json(products);
+        // Get the start of today
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0); // Set to 00:00:00
+
+        // Get the start of last week (7 days ago)
+        const startOfLastMonth = new Date(startOfDay);
+        startOfLastMonth.setDate(startOfLastMonth.getDate() - 30); // Subtract 30 days, i updated it to get last month users
+
+        // Query for users created since last week
+        const ThisMonthProducts = await Product.find({
+            createdAt: {
+                $gte: startOfLastMonth, // From 7 days ago
+            },
+        });
+        res.status(200).json({products,ThisMonthProducts});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
