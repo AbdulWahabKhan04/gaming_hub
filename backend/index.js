@@ -1,9 +1,11 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import authRouter from "./Routers/authRouter.js"
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import cors from 'cors'
+import mongoose from 'mongoose';
+
+import authRouter from "./Routers/authRouter.js"
+import productRouter from "./Routers/productRouter.js"
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(cors({
 dotenv.config()
 
 app.use("/api/auth",authRouter)
+app.use("/api/product",productRouter)
+
 
 
 mongoose.connect("mongodb://localhost:27017/gamingHUB").then(() => {

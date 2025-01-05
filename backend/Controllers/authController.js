@@ -34,7 +34,7 @@ export const registerUser = async (req,res) => {
             profilePic
         })
         await newUser.save()
-        const token = await generateToken(newUser._id)
+        const token = await generateToken(newUser._id,req)
         res.status(201).cookie("accessToken",token).json({message: "Welcome into Gaming World!",newUser});
     } catch (error) {
         console.log(error);
@@ -56,7 +56,7 @@ export const loginUser = async (req,res) => {
         if(!isMatch){
             return res.status(400).json({error: "Invalid credentials"})
         }
-        const token = await generateToken(user._id)
+        const token = await generateToken(user._id,req)
         res.status(200).cookie("accessToken",token,{httpOnly:true}).json({message: `Welcome back! ${user.username}`,user});
     } catch (error) {
         console.log(error);
@@ -73,7 +73,7 @@ export const getTotalUsers = async(req,res)=>{
 
         // Get the start of last week (7 days ago)
         const startOfLastWeek = new Date(startOfDay);
-        startOfLastWeek.setDate(startOfLastWeek.getDate() - 7); // Subtract 7 days
+        startOfLastWeek.setDate(startOfLastWeek.getDate() - 30); // Subtract 30 days, i updated it to get last month users
 
         // Query for users created since last week
         const ThisWeekUsers = await User.find({
