@@ -43,6 +43,10 @@ const productSchema = mongoose.Schema({
     },
     featured:{
         type: Boolean
+    },
+    views:{
+        type: Number,
+        default: 0
     }
 
 },{timestamps: true})

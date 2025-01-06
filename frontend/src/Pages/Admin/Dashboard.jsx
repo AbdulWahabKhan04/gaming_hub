@@ -64,7 +64,7 @@ function Dashboard() {
       </div>
 
       <h1 className="text-4xl text-center">Recent Data Record</h1>
-      <div className="flex flex-wrap gap-5 max-lg:gap-20 justify-center flex-col lg:flex-row items-center">
+      <div className="flex flex-wrap gap-20 max-lg:gap-20 justify-center flex-col lg:flex-row items-center">
         <DataTable />
         <DataTable />
         <DataTable />

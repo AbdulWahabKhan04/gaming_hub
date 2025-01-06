@@ -53,7 +53,7 @@ function Sidebar() {
               <div className="sideBarItem  py-2 text-center hover:bg-purple-900 hover:text-white items-center justify-center border-b border-white text-gray-300 flex gap-2 w-full">
                 {/* Updated Link */}
                 <CgProductHunt />
-                <Link className="" to="/admin/dashboard">
+                <Link className="" to="/profile?tab=products">
                   PRODUCTS
                 </Link>
               </div>

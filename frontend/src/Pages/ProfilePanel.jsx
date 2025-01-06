@@ -4,6 +4,7 @@ import Sidebar from "../components/UI/Sidebar";
 import Dashboard from "./Admin/Dashboard";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import Products from "./Admin/Products";
 
 function ProfilePanel() {
   const location = useLocation();
@@ -30,9 +31,10 @@ function ProfilePanel() {
   return (
     <div className="h-min-screen p-5 gap-5 bg-gray-800 max-lg:items-center flex flex-col lg:flex-row">
       <Sidebar/>
-      <div className="max-w-7xl">
+      <div className="w-full">
         {tab === "profile" && <div>Profile Panel</div>}
         {tab === "dashboard" && <Dashboard />}
+        {tab === "products" && <Products />}
       </div>
     </div>
   );
