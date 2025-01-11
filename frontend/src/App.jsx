@@ -4,6 +4,7 @@ import Layout from "./Pages/Layout/Layout";
 import ProfilePanel from "./Pages/ProfilePanel";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
+import NewProduct from "./Pages/Admin/NewProduct";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path={"/profile"} element={<ProfilePanel />} />
-
+          <Route path="/products/new" element={<NewProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

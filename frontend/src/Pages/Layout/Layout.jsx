@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
-    <div>
+    <div className="bg-gray-800">
         <Navbar/>
         <Outlet/>
         <Footer />

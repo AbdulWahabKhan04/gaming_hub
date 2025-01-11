@@ -69,7 +69,7 @@ function Products() {
         <h1>All Uploaded Products</h1>
         <Link
           className="bg-purple-900  p-2 rounded-lg hover:bg-purple-950"
-          to={"/products/createProduct"}
+          to={"/products/new"}
         >
           Post New Product
         </Link>
@@ -102,13 +102,15 @@ function Products() {
               key={product.productName}
               className="hover:bg-purple-600 border-b-purple-900 cursor-pointer hover:text-white"
             >
-              <TableCell className="w-[100px]">
-                <img
-                  src={product.coverImage}
-                  alt={product.productName}
-                  className="w-16 h-16 object-cover"
-                />
-              </TableCell>
+              <Link to={`/products/${product.productName}`} className="w-full">
+                <TableCell className="w-[100px]">
+                  <img
+                    src={product.coverImage}
+                    alt={product.productName}
+                    className="w-16 h-16 object-cover"
+                  />
+                </TableCell>
+              </Link>
               <TableCell className="font-medium">
                 {product.productName}
               </TableCell>
