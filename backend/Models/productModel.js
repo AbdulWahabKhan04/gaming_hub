@@ -44,6 +44,9 @@ const productSchema = mongoose.Schema({
     featured:{
         type: Boolean
     },
+    saleExpiry:{
+        type: Date
+    },
     views:{
         type: Number,
         default: 0

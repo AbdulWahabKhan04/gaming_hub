@@ -15,6 +15,7 @@ const createProduct = async (req, res) => {
             salePrice,
             stock,
             platform,
+            saleExpiry,
             featured } = req.body;
         if (!name || !type || !price || !description || !category || !coverImage || !platform) {
             return res.status(400).json({ error: 'Missing required fields' });
@@ -31,7 +32,8 @@ const createProduct = async (req, res) => {
             salePrice,
             stock,
             platform,
-            featured
+            featured,
+            saleExpiry
         });
         await product.save();
         res.status(201).json(product);

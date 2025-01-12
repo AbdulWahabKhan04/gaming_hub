@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function NewProduct() {
   const [formData, setFormData] = useState({});
@@ -11,9 +13,25 @@ function NewProduct() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+    try {
+      toast("On It!", {
+        icon: "⏳",
+      });
+      const res = await axios.post(
+        "http://localhost:3000/api/product/createProduct",
+        formData
+      );
+      console.log(formData)
+      if (res.status == 201) {
+        toast.success("Product created successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error creating product!");
+    }
   };
 
   return (
@@ -27,184 +45,198 @@ function NewProduct() {
         className="flex flex-col gap-10 mt-10 items-center"
         onSubmit={handleSubmit}
       >
-        <div className="flex justify-between flex-col items-center md:flex-row gap-10">
-        <div className="flex gap-2 items-center ">
-          <label className="text-2xl">Cover Image</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="file"
-            name="cover Image"
-            value={formData.coverImage}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="flex gap-2 items-center ">
-          <label className="text-2xl">Name</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="name"
-            placeholder="FC 25"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        </div>
-
-        <div className="flex justify-between gap-10 flex-col items-center md:flex-row">
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Type</label>
-          <select
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            required
-          >
-            <option value={null}>Select Type</option>
-
-            <option value="account">Account</option>
-            <option value="code">Code</option>
-          </select>
+        {/* Row 1 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Cover Image</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="coverImage"
+              placeholder="https://example.com/image.jpg"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Name</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="name"
+              placeholder="FC 25"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Price</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="price"
-            placeholder="999rs"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        </div>
-
-        <div className="flex justify-between gap-10 flex-col items-center md:flex-row">
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Description</label>
-          <textarea
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="description"
-            placeholder="Blah Blah Blah"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Category</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="category"
-            placeholder="Sports"
-            value={formData.category}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        </div>
-
-
-        <div className="flex justify-between gap-10 flex-col items-center md:flex-row">
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Trailer</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="trailer"
-            placeholder="youtube.com/game"
-            value={formData.trailer}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Sale</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="checkbox"
-            name="onSale"
-            placeholder="FC 25"
-            value={formData.onSale}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        </div>
-        
-        <div className="flex justify-between gap-10 flex-col items-center md:flex-row">
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Sale Price</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="salePrice"
-            placeholder="Discounted Price"
-            value={formData.salePrice}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Stock</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="stock"
-            placeholder="3"
-            value={formData.stock}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        </div>
-
-        <div className="flex justify-between gap-10 flex-col items-center md:flex-row">
-
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Platform</label>
-          <select
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="text"
-            name="platform"
-            placeholder="FC 25"
-            value={formData.platform}
-            onChange={handleChange}
-            required
-          > 
-          <option value={null}>Select Platform</option>
-          <option value="pc">steam</option>
-          <option value="xbox">xbox</option>
-          <option value="playstation">playstation</option>
+        {/* Row 2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Type</label>
+            <select
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Type</option>
+              <option value="account">Account</option>
+              <option value="code">Code</option>
             </select>
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Price</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="price"
+              placeholder="999rs"
+              value={formData.price}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="flex gap-5 items-center ">
-          <label className="text-2xl">Featured</label>
-          <input
-            className="bg-gray-700 focus:outline-purple-900 focus:outline-none w-72 rounded p-1"
-            type="checkbox"
-            name="featured"
-            placeholder="FC 25"
-            value={formData.featured}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {/* Row 3 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Description</label>
+            <textarea
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              name="description"
+              placeholder="Blah Blah Blah"
+              value={formData.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Category</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="category"
+              placeholder="Sports"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <button className="w-28 h-16 bg-purple-900 rounded-lg" type="submit">Upload</button>
+        {/* Row 4 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Trailer</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="trailer"
+              placeholder="youtube.com/game"
+              value={formData.trailer}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Sale</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="checkbox"
+              name="onSale"
+              checked={formData.onSale || false}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+          {/* Animated Section */}
+          <div
+            className={`transition-all  duration-500 ease-in-out overflow-hidden ${
+              formData.onSale ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="flex items-center gap-4">
+              <label className="text-2xl w-32">Sale Expiry</label>
+              <input
+                className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+                type="datetime-local"
+                name="saleExpiry"
+                value={formData.saleExpiry || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex items-center gap-4 mt-4">
+              <label className="text-2xl w-32">Sale Price</label>
+              <input
+                className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+                type="text"
+                name="salePrice"
+                placeholder="Discounted Price"
+                value={formData.salePrice || ""}
+                onChange={handleChange}
+                required={formData.onSale}
+              />
+            </div>
+          </div>
+
+        {/* Row 5 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Stock</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="text"
+              name="stock"
+              placeholder="3"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Row 6 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Platform</label>
+            <select
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              name="platform"
+              value={formData.platform}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Platform</option>
+              <option value="pc">Steam</option>
+              <option value="xbox">Xbox</option>
+              <option value="playstation">PlayStation</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="text-2xl w-32">Featured</label>
+            <input
+              className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
+              type="checkbox"
+              name="featured"
+              checked={formData.featured || false}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          onClick={handleSubmit}
+          className="w-32 h-12 bg-purple-900 rounded-lg"
+          type="submit"
+        >
+          Upload
+        </button>
       </form>
     </div>
   );
