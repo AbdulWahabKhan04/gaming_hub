@@ -4,7 +4,7 @@ const createProduct = async (req, res) => {
     try {
         const user = req.user 
         console.log(user)
-        const { name,
+        const { title,
             type,
             price,
             description,
@@ -17,11 +17,17 @@ const createProduct = async (req, res) => {
             platform,
             saleExpiry,
             featured } = req.body;
-        if (!name || !type || !price || !description || !category || !coverImage || !platform) {
+        if (!title || !type || !price || !description || !category || !coverImage || !platform) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
+        if (onSale && !salePrice) {
+            return res.status(400).json({ error: 'Sale price is required when onSale is true' });
+        }
+        if (onSale && salePrice > price) {
+            return res.status(400).json({ error: 'Sale price cannot be greater than regular price' });
+        }
         const product = new Product({
-            name,
+            title,
             type,
             price,
             description,

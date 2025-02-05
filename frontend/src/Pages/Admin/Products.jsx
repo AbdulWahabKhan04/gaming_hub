@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Table,
@@ -9,58 +10,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import axios from "axios";
+import ProductModal from "../../components/ProductModal";
 
 function Products() {
-  const products = [
-    {
-      coverImage: "https://via.placeholder.com/100",
-      productName: "Product A",
-      type: "Game",
-      price: 49.99,
-      platform: "PC",
-      views: 1200,
-      category: "Action",
-      trailer: "https://www.youtube.com/watch?v=example",
-      sale: true,
-      salePrice: 39.99,
-      stock: 100,
-      featured: false,
-    },
-    {
-      coverImage: "https://via.placeholder.com/100",
-      productName: "Product B",
-      type: "Software",
-      price: 29.99,
-      platform: "Mac",
-      views: 850,
-      category: "Productivity",
-      trailer: "https://www.youtube.com/watch?v=example",
-      sale: false,
-      salePrice: null,
-      stock: 50,
-      featured: true,
-    },
-    {
-      coverImage: "https://via.placeholder.com/100",
-      productName: "Product C",
-      type: "Game",
-      price: 59.99,
-      platform: "Xbox",
-      views: 2300,
-      category: "Adventure",
-      trailer: "https://www.youtube.com/watch?v=example",
-      sale: true,
-      salePrice: 49.99,
-      stock: 200,
-      featured: false,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [productModal, setProductModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await axios.get("http://localhost:3000/api/product");
+      setProducts(res.data.products);
+    };
+    fetchProducts();
+  }, []);
+
   const TodaysDate = () => {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
+  };
+
+  const handleRowClick = (product) => {
+    setSelectedProduct(product);
+    setProductModal(true);
   };
 
   return (
@@ -83,7 +59,7 @@ function Products() {
         <TableHeader>
           <TableRow className="hover:bg-purple-900 border-b-purple-900">
             <TableHead className="w-[100px]">Cover Image</TableHead>
-            <TableHead>Product Name</TableHead>
+            <TableHead>Title</TableHead>
             <TableHead>Type</TableHead>
             <TableHead className="text-right">Price</TableHead>
             <TableHead className="text-right">Platform</TableHead>
@@ -99,21 +75,19 @@ function Products() {
         <TableBody>
           {products.map((product) => (
             <TableRow
+              key={product._id}
+              onClick={() => handleRowClick(product)}
               key={product.productName}
               className="hover:bg-purple-600 border-b-purple-900 cursor-pointer hover:text-white"
             >
-              <Link to={`/products/${product.productName}`} className="w-full">
-                <TableCell className="w-[100px]">
-                  <img
-                    src={product.coverImage}
-                    alt={product.productName}
-                    className="w-16 h-16 object-cover"
-                  />
-                </TableCell>
-              </Link>
-              <TableCell className="font-medium">
-                {product.productName}
+              <TableCell className="w-[100px]">
+                <img
+                  src={product.coverImage}
+                  alt={product.productName}
+                  className="w-16 h-16 object-cover"
+                />
               </TableCell>
+              <TableCell className="font-medium">{product.title}</TableCell>
               <TableCell>{product.type}</TableCell>
               <TableCell className="text-right">
                 ${product.price.toFixed(2)}
@@ -145,6 +119,17 @@ function Products() {
           ))}
         </TableBody>
       </Table>
+
+      {/* Modal for displaying product details */}
+      {productModal && selectedProduct && (
+        <ProductModal
+          products={products}
+          selectedProduct={selectedProduct}
+          setProductModal={setProductModal}
+          setSelectedProduct={setSelectedProduct}
+          setProducts={setProducts}
+        />
+      )}
     </div>
   );
 }

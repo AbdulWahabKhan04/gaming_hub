@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function NewProduct() {
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -15,7 +17,7 @@ function NewProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(formData);
+    console.log(formData);
     try {
       toast("On It!", {
         icon: "⏳",
@@ -24,9 +26,10 @@ function NewProduct() {
         "http://localhost:3000/api/product/createProduct",
         formData
       );
-      console.log(formData)
+      // console.log(formData)
       if (res.status == 201) {
         toast.success("Product created successfully!");
+        navigate("/profile?tab=products")
       }
     } catch (error) {
       console.log(error);
@@ -59,13 +62,13 @@ function NewProduct() {
             />
           </div>
           <div className="flex items-center gap-4">
-            <label className="text-2xl w-32">Name</label>
+            <label className="text-2xl w-32">Title</label>
             <input
               className="bg-gray-700 focus:outline-purple-900 focus:outline-none flex-1 rounded p-1"
               type="text"
-              name="name"
+              name="title"
               placeholder="FC 25"
-              value={formData.name}
+              value={formData.title}
               onChange={handleChange}
               required
             />
