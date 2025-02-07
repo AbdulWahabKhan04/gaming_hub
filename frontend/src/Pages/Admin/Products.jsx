@@ -78,7 +78,7 @@ function Products() {
               key={product._id}
               onClick={() => handleRowClick(product)}
               key={product.productName}
-              className="hover:bg-purple-600 border-b-purple-900 cursor-pointer hover:text-white"
+              className="hover:bg-purple-700 border-b-purple-900 cursor-pointer hover:text-white"
             >
               <TableCell className="w-[100px]">
                 <img
